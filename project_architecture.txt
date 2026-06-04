@@ -1,0 +1,49 @@
+Raw Data
+      │
+      ▼
+
+Data Audit
+      │
+      ▼
+
+EDA
+      │
+      ▼
+
+Feature Engineering
+      │
+      ▼
+
+Segment-Level Model
+      │
+      ▼
+
+Trip-Level Aggregation
+      │
+      ▼
+
+Graph Construction
+      │
+      ▼
+
+Hub Metrics
+      │
+      ▼
+
+Graph Feature Engineering
+      │
+      ▼
+
+LightGBM + Graph Features
+      │
+      ▼
+
+Bottleneck Detection
+      │
+      ▼
+
+FTL Recommendation Engine
+      │
+      ▼
+
+Executive Dashboard

@@ -1,0 +1,49 @@
+Delhivery_Graph_ETA/
+
+│
+├── data/
+│   ├── raw/
+│   ├── cleaned/
+│   ├── feature_store/
+│   └── graph_data/
+│
+├── notebooks/
+│
+│   00_data_audit.ipynb
+│   01_eda.ipynb
+│   02_feature_engineering.ipynb
+│
+│   03_segment_model.ipynb
+│   04_route_model.ipynb
+│
+│   05_graph_build.ipynb
+│   06_graph_metrics.ipynb
+│
+│   07_graph_ml.ipynb
+│
+│   08_shap_analysis.ipynb
+│
+│   09_business_recommendations.ipynb
+│
+├── src/
+│
+│   data_cleaning.py
+│   feature_engineering.py
+│
+│   graph_builder.py
+│   graph_metrics.py
+│
+│   model_segment.py
+│   model_route.py
+│
+│   explainability.py
+│
+├── models/
+│
+├── reports/
+│
+├── dashboard/
+│
+├── presentations/
+│
+└── requirements.txt
