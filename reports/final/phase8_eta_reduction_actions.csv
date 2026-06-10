@@ -1,0 +1,8 @@
+Driver,Business_Action,Expected_Benefit
+trip_to_cutoff_minutes,Reduce dispatch waiting time,Lower ETA inflation
+trip_to_scan_minutes,Improve scan turnaround,Faster processing
+source_volume,Facility capacity planning,Reduced hub congestion
+corridor_volume,Corridor load balancing,Lower corridor delays
+route_type,Route-type optimization,Improved routing efficiency
+betweenness_difference,Monitor bottleneck corridors,Lower network bottlenecks
+embedding_cosine_similarity,Graph-aware routing,Smarter route selection

@@ -1,0 +1,10 @@
+{
+    "final_model": "LightGBM Graph + Edge",
+    "mae": 0.4056,
+    "rmse": 0.9366,
+    "r2": 0.637,
+    "embedding_pct": 65.24,
+    "centrality_pct": 16.59,
+    "edge_pct": 12.94,
+    "community_pct": 5.24
+}

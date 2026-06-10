@@ -1,10 +1,10 @@
-# PHASE 3 REPORT — GRAPH CONSTRUCTION
+# PHASE 6 REPORT — SEGMENT ETA MODELING & GRAPH INTELLIGENCE VALIDATION
 
 Project:
 Optimizing Delivery ETAs with Graph-Based Network Intelligence
 
 Phase:
-Phase 3 — Graph Construction
+Phase 6 — Segment-Level ETA Modeling
 
 Status:
 Completed Successfully
@@ -13,163 +13,402 @@ Completed Successfully
 
 ## Objective
 
-Transform Delhivery's logistics network into a graph representation capable of supporting network analytics, centrality computation, community detection, graph machine learning, and ETA prediction.
+Quantify whether graph-derived intelligence improves ETA prediction beyond traditional logistics features.
+
+This phase represents the first direct measurement of business value generated from graph analytics.
+
+Primary Research Question:
+
+"Do graph-derived features improve ETA prediction beyond traditional operational features?"
 
 ---
 
-## Graph Design
+## Modeling Strategy
 
-Graph Type:
-
-Directed Network (NetworkX DiGraph)
-
-Node Definition:
-
-Facility / Logistics Center
-
-Edge Definition:
-
-Observed Shipment Corridor
-
-Direction:
-
-Source Facility → Destination Facility
-
-Edge Weight:
-
-Median Delay Factor
+Target Variable:
 
 factor = actual_time / osrm_time
 
----
+Validation Strategy:
 
-## Network Statistics
+GroupShuffleSplit
 
-Nodes:
-1,657
+Grouping Variable:
 
-Edges:
-2,783
+trip_uuid
 
-Density:
-0.001014
+Reason:
 
-Weakly Connected Components:
-64
+Prevent trip-level leakage.
 
-Strongly Connected Components:
-545
+Verification:
 
-Largest Weak Component:
-1,353 nodes
-
-Coverage:
-81.65%
+0 overlapping trips between train and test sets.
 
 ---
 
-## Hub Analysis
+## Leakage Controls
 
-Dominant Hub:
+Excluded Features:
 
-IND000000ACB
+actual_time
 
-Degree:
-94
+segment_actual_time
 
-The facility acts as the primary structural backbone of the logistics network and connects multiple regional sub-networks.
+od_end_time
 
-Major Secondary Hubs:
+factor_check
 
-IND562132AAA
+source_delay
 
-IND160002AAC
+destination_delay
 
-IND421302AAG
+corridor_delay
 
-IND501359AAE
+segment_factor
 
-These facilities form the second-tier backbone supporting nationwide connectivity.
+cutoff_factor
 
----
-
-## Corridor Analysis
-
-Highest Volume Corridor:
-
-IND000000ACB → IND562132AAA
-
-Volume:
-4,976
-
-Median Factor:
-1.684
-
-This corridor represents one of the most operationally important routes within the network.
+Only features available at prediction time were used.
 
 ---
 
-Most Delayed Corridor:
+## Model Experiments
 
-IND212402AAA → IND211002AAB
+### Random Forest Baseline
 
-Median Factor:
-31.79
+Features:
 
-Volume:
-65
+Phase 2 engineered logistics features only.
 
-This corridor demonstrates extreme delay behaviour and represents a candidate for operational investigation.
+Results:
 
----
+MAE:
+0.4178
 
-## Key Findings
+RMSE:
+0.9823
 
-The logistics network is highly sparse.
-
-A small number of facilities dominate connectivity.
-
-Hub-and-spoke characteristics are clearly visible.
-
-The network structure suggests graph-derived features may carry predictive information beyond traditional tabular logistics features.
-
-Network topology validates the use of:
-
-* Centrality Metrics
-* Community Detection
-* Node Embeddings
-* Graph-Based ETA Modeling
+R²:
+0.6006
 
 ---
 
-## Outputs Generated
+### Random Forest Graph Model
 
-logistics_graph.pkl
+Features:
 
-node_features.csv
+Baseline Features
 
-edge_features.csv
+*
 
-top_hubs.csv
+Centrality Features
 
-top_corridors.csv
+*
 
-graph_summary.csv
+Community Features
+
+*
+
+Node2Vec Embeddings
+
+Results:
+
+MAE:
+0.4129
+
+RMSE:
+0.9370
+
+R²:
+0.6366
+
+Improvement:
+
+MAE:
+1.16%
+
+RMSE:
+4.61%
+
+Conclusion:
+
+Graph signal detected but not fully exploited.
+
+---
+
+## LightGBM Baseline
+
+Features:
+
+Traditional logistics features only.
+
+Results:
+
+MAE:
+0.4446
+
+RMSE:
+1.0105
+
+R²:
+0.5774
+
+---
+
+## LightGBM Graph Model
+
+Features:
+
+Baseline Features
+
+*
+
+Centrality Features
+
+*
+
+Community Features
+
+*
+
+Node2Vec Embeddings
+
+Results:
+
+MAE:
+0.4063
+
+RMSE:
+0.9320
+
+R²:
+0.6405
+
+Improvement:
+
+MAE:
+8.62%
+
+RMSE:
+7.77%
+
+R²:
++0.0631
+
+Conclusion:
+
+Graph intelligence provides significant predictive value.
+
+Project hypothesis validated.
+
+---
+
+## Feature Importance Findings
+
+Top-ranked features included multiple Node2Vec embedding dimensions.
+
+Examples:
+
+src_embedding_26
+
+src_embedding_12
+
+src_embedding_4
+
+dst_embedding_21
+
+dst_embedding_28
+
+Interpretation:
+
+Graph embeddings capture latent structural information not represented by traditional logistics features.
+
+---
+
+## Graph Ablation Study
+
+Purpose:
+
+Quantify contribution of individual graph intelligence components.
+
+---
+
+### Baseline
+
+MAE:
+0.4443
+
+---
+
+### Baseline + Centrality
+
+MAE:
+0.4232
+
+Gain:
+4.75%
+
+Finding:
+
+Network importance significantly influences ETA behavior.
+
+---
+
+### Baseline + Centrality + Community
+
+MAE:
+0.4232
+
+Gain:
+4.75%
+
+Finding:
+
+Community assignments contribute negligible standalone predictive value.
+
+---
+
+### Full Graph Model
+
+MAE:
+0.4076
+
+Gain:
+8.25%
+
+Finding:
+
+Node2Vec embeddings provide substantial additional predictive signal beyond classical graph metrics.
+
+---
+
+## Edge Intelligence Experiment
+
+Added Features:
+
+same_community
+
+pagerank_difference
+
+betweenness_difference
+
+hub_score_difference
+
+authority_score_difference
+
+embedding_cosine_similarity
+
+Results:
+
+Full Graph:
+
+MAE:
+0.4076
+
+Full Graph + Edge:
+
+MAE:
+0.4056
+
+Additional Gain:
+
+0.48%
+
+Conclusion:
+
+Edge-level graph intelligence contributes modest but measurable value.
+
+Most graph value originates from node-level intelligence.
+
+---
+
+## Final Production Candidate
+
+Model:
+
+LightGBM
+
+Features:
+
+Baseline Logistics Features
+
+*
+
+Centrality Metrics
+
+*
+
+Community Features
+
+*
+
+Node2Vec Embeddings
+
+*
+
+Edge Intelligence Features
+
+Performance:
+
+MAE:
+0.4056
+
+RMSE:
+0.9366
+
+R²:
+0.6370
+
+---
+
+## Key Research Findings
+
+Graph intelligence improves ETA prediction.
+
+Centrality metrics explain approximately half of graph-derived gains.
+
+Node2Vec embeddings explain the remaining majority of graph-derived gains.
+
+Community assignments provide limited standalone value.
+
+Edge intelligence contributes incremental improvements.
+
+Graph-aware ETA prediction outperforms traditional logistics-only models.
 
 ---
 
 ## Business Impact
 
-Phase 3 successfully transformed operational shipment data into a reusable network intelligence asset.
+The project successfully demonstrates that logistics network structure contains predictive information not captured by traditional operational features.
 
-The graph became the foundation for:
+Graph intelligence enables:
 
-* Phase 4 Centrality Engineering
-* Phase 5 Node2Vec Representation Learning
-* Phase 6 Graph-Aware ETA Modeling
-* Phase 7 Explainability
-* Phase 8 Executive Recommendations
+* More accurate ETA prediction
+* Better identification of critical facilities
+* Better understanding of corridor behavior
+* Improved operational decision support
 
-Without Phase 3, graph intelligence could not be quantified.
+---
 
-This phase established the core infrastructure enabling the project's eventual 8.62% ETA prediction improvement through graph-aware modeling.
+## Phase Outcome
+
+Status:
+
+SUCCESS
+
+Research Question:
+
+Answered
+
+Graph Intelligence Value:
+
+Validated
+
+Production Candidate:
+
+Established
+
+Next Phase:
+
+Phase 7 — Explainability (SHAP Analysis)

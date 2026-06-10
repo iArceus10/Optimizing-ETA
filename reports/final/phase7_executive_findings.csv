@@ -1,0 +1,10 @@
+Finding,Evidence
+Graph intelligence improves ETA prediction,MAE improved from 0.4443 to 0.4056
+Node2Vec embeddings are primary graph signal,65.2% of graph SHAP importance
+Centrality contributes meaningful signal,16.6% of graph SHAP importance
+Community structure contributes minor signal,5.2% of graph SHAP importance
+Edge intelligence adds measurable value,12.9% of graph SHAP importance
+Trip-to-cutoff delay is top operational driver,Top SHAP operational feature
+Carting routes inflate ETA,Top ETA inflation feature
+Source and corridor congestion matter,Source volume and corridor volume rank highly
+Super hubs dominate network behavior,IND000000ACB dominates impact rankings

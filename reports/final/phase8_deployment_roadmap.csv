@@ -1,0 +1,5 @@
+Phase,Description
+Current,Offline ETA scoring
+Stage 1,Batch ETA predictions
+Stage 2,Near real-time ETA scoring
+Stage 3,Graph-aware operational intelligence platform
