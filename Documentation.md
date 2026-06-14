@@ -281,6 +281,35 @@ Outputs
 
 These features captured structural importance and network influence.
 
+Definition
+High Delay observations were defined as the
+top 10% of ETA inflation values.
+Top High Delay Facilities
+
+--------------------------------------------
+
+Facility	High Delay
+IND000000ACB	212
+IND421302AAG	131
+IND110037AAM	63s
+IND712311AAA	59
+IND400072AAB	56
+
+--------------------------------------------
+
+Top High Delay Corridors
+Corridor	High Delay
+IND000000ACB → IND712311AAA	103
+IND110037AAM → IND781018AAB	34
+IND395023AAA → IND411033AAA	33
+IND000000ACB → IND562132AAA	30
+IND560300AAA → IND560099AAB	27
+Business Metric
+
+
+Within ±15% Accuracy = 59.62%
+
+
 ---
 
 # 9. Graph Representation Learning
